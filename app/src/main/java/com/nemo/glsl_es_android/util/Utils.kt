@@ -3,6 +3,9 @@ package com.nemo.glsl_es_android.util
 import android.app.Activity
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.FloatBuffer
 
 object Utils {
     private const val TAG = "GLES20"
@@ -96,5 +99,14 @@ object Utils {
         // 作成したGLSurfaceViewにこのアプリケーションから描画する
         glSurfaceView.setRenderer(renderer)
         return glSurfaceView
+    }
+
+    fun makeFloatBuffer(array: FloatArray): FloatBuffer {
+        val byteBuffer = ByteBuffer.allocateDirect(4 * array.size)
+        byteBuffer.order(ByteOrder.nativeOrder())
+        val floatBuffer = byteBuffer.asFloatBuffer()
+        floatBuffer.put(array)
+        floatBuffer.position(0)
+        return floatBuffer
     }
 }
